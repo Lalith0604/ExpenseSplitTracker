@@ -1,25 +1,27 @@
 package com.example.ExpenseSplitTracker.model;
 
+import jakarta.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 import lombok.*;
-import java.util.*;
 
+@Entity
+@Table(name = "groups")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Group {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
     private String name;
-    private Map<String, User> users = new HashMap<>();
-
-    public Group() {}
-
-    public Group(String name) {
-        this.name = name;
-    }
-
-    // ✅ Add these methods
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public Map<String, User> getUsers() { return users; }
-    public void setUsers(Map<String, User> users) { this.users = users; }
+    
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Expense> expenses = new ArrayList<>();
 }
+

@@ -1,25 +1,23 @@
 package com.example.ExpenseSplitTracker.model;
 import lombok.*;
 
+@Entity
+@Table(name = "users")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
     private String name;
-    private double balance;
-
-    public User() {} // default no-arg constructor (for Spring)
-
-    public User(String name, double balance) { // ✅ add this
-        this.name = name;
-        this.balance = balance;
-    }
-
-    // Getters and setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public double getBalance() { return balance; }
-    public void setBalance(double balance) { this.balance = balance; }
+    
+    @Column(nullable = false)
+    private Double balance = 0.0;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
 }
-
