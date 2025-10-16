@@ -9,7 +9,6 @@ public class ExpenseService {
 
     public void addExpense(Group group, Expense expense) {
         String type = expense.getSplitType().toLowerCase();
-
         switch (type) {
             case "equal" -> addEqual(group, expense.getAmount());
             case "exact" -> addExact(group, expense.getSplitDetails());
@@ -18,30 +17,49 @@ public class ExpenseService {
         }
     }
 
-    private void addEqual(Group group, double amount) {
+    private void addEqual(Group group, Double amount) {
         int count = group.getUsers().size();
-        double split = amount / count;
+        if (count == 0) return;
 
-        for (User user : group.getUsers().values()) {
+        double split = amount / count;
+        // ✅ Fixed: Use group.getUsers() instead of .values()
+        for (User user : group.getUsers()) {
             user.setBalance(user.getBalance() - split);
         }
     }
 
     private void addExact(Group group, Map<String, Double> details) {
-        for (Map.Entry<String, Double> e : details.entrySet()) {
-            User user = group.getUsers().get(e.getKey());
-            if (user != null)
-                user.setBalance(user.getBalance() - e.getValue());
+        for (Map.Entry<String, Double> entry : details.entrySet()) {
+            String userName = entry.getKey();
+            Double amount = entry.getValue();
+
+            // ✅ Fixed: Find user by name instead of Map.get()
+            User user = findUserByName(group, userName);
+            if (user != null) {
+                user.setBalance(user.getBalance() - amount);
+            }
         }
     }
 
-    private void addPercentage(Group group, double total, Map<String, Double> details) {
-        for (Map.Entry<String, Double> e : details.entrySet()) {
-            User user = group.getUsers().get(e.getKey());
+    private void addPercentage(Group group, Double total, Map<String, Double> details) {
+        for (Map.Entry<String, Double> entry : details.entrySet()) {
+            String userName = entry.getKey();
+            Double percentage = entry.getValue();
+
+            // ✅ Fixed: Find user by name instead of Map.get()
+            User user = findUserByName(group, userName);
             if (user != null) {
-                double amt = (e.getValue() / 100) * total;
-                user.setBalance(user.getBalance() - amt);
+                double amount = (percentage / 100.0) * total;
+                user.setBalance(user.getBalance() - amount);
             }
         }
+    }
+
+    // ✅ NEW: Helper method to find user by name in List<User>
+    private User findUserByName(Group group, String userName) {
+        return group.getUsers().stream()
+                .filter(user -> user.getName().equals(userName))
+                .findFirst()
+                .orElse(null);
     }
 }
