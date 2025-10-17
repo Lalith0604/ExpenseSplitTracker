@@ -1,42 +1,27 @@
 package com.example.ExpenseSplitTracker.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
     private String name;
+    private double balance;
 
-    @Column(nullable = false)
-    private Double balance = 0.0;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    // Constructors
-    public User() {}
-
-    public User(String name, Double balance) {
+    public User(String name) {
         this.name = name;
-        this.balance = balance;
+        this.balance = 0.0;
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public User(String name,double balance) {
+        this.name = name;
+        this.balance = 0.0;
+    }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public double getBalance() { return balance; }
 
-    public Double getBalance() { return balance; }
-    public void setBalance(Double balance) { this.balance = balance; }
+    public void addBalance(double amount) {
+        this.balance += amount;
+    }
 
-    public Group getGroup() { return group; }
-    public void setGroup(Group group) { this.group = group; }
+    public void subtractBalance(double amount) {
+        this.balance -= amount;
+    }
 }
