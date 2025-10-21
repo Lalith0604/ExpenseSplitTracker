@@ -66,7 +66,7 @@ API Endpoints:
 Create Group
 
 pgsql
-Copy code
+Copy code 
 POST /api/group?name=Trip
 Add User
 
