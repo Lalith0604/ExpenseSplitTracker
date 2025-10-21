@@ -1,5 +1,7 @@
 Expense Split Tracker (Spring Boot)
 
+Video : https://www.loom.com/share/9dac1a749fab4ef9b2d5971a67c06f76?sid=7314ac38-524d-4f83-8e73-018743dbf01c
+
 ### 🧾 Overview  
 Expense Split Tracker is a Spring Boot–based REST API that helps users *create groups, **add shared expenses, **split costs* (equally, exact, or by percentage), *track balances, and **settle or simplify debts* — all viewable easily through *Postman*.
 
