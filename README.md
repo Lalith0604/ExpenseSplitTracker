@@ -80,15 +80,25 @@ Split expenses equally among all group members.
 
 Example:
 arduino
+
 Copy code
+
 POST /api/group/Trip/addExpense
+
 Body (JSON):
+
 {
+
   "description": "Dinner",
+  
   "amount": 90,
+  
   "paidBy": "Alice",
+  
   "splitType": "EQUAL"
+  
 }
+
 ✅ Expected:
 Each of 3 users owes $30.
 
